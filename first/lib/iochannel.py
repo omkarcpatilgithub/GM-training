@@ -205,13 +205,7 @@ class NihkaBot(RestInput):
 
 
 
-                    # print("text response",text)
-                    # print(collector.messages)
-                    # print(type(collector.messages))
-                    # print(type(collector.messages[0]))
-
-                    te = '"text":"'+text+'"'
-                    #text = json.loads(te)  # convert the string to json
+                    print(text)
                     print(text)
                     recipient_id = message_received_is.get("recipient_id")
 
@@ -256,7 +250,7 @@ class NihkaBot(RestInput):
                         "An exception occured while handling "
                         "user message '{}'.".format(text)
                     )
-                    return response.json(message)
+            # return response.json(message)
 
         return custom_webhook
 

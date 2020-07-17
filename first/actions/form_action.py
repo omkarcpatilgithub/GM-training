@@ -7,6 +7,7 @@ from rasa_sdk.executor import CollectingDispatcher
 import pymongo
 from pymongo import MongoClient
 from rasa_sdk.events import SlotSet, FollowupAction
+import re
 
 class FacilityForm(FormAction):
     """Custom form action to fill all slots required to find specific type
@@ -21,6 +22,7 @@ class FacilityForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
+        
         return ["name", "email"]
 
 ## how is this returning form intent
@@ -29,11 +31,61 @@ class FacilityForm(FormAction):
     def slot_mappings(self) -> Dict[Text, Any]:
         # return {"name": self.from_entity(entity="name",
         #                                  intent=["name"]),
-        return {"name": [self.from_text()],
-                "email": self.from_entity(entity="email",
-                                             # intent="inform")}
-                                             intent=["email"])}
 
+        print('taking name and email')
+        return {"name": [self.from_text(intent=["name"])],
+                "email": [self.from_text(intent=["email"])]}
+   
+    def validate_name(
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate cuisine value."""
+
+        # print('########################################3')
+        # # print(tracker.slots)
+        # print('########################################3')
+        print(tracker.slots)
+        print('########################################3')
+        print(tracker.latest_message)
+        print('########################################3')
+        print(tracker.latest_action_name)
+        if (tracker.slots['name']):
+            value = tracker.slots['name']
+        print('returning whole value')
+        return {"name": value}
+
+    def validate_email(
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate cuisine value."""
+
+        print(tracker.slots)
+        pattern = '^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$'
+
+        if(re.match(pattern, value)):
+            return {"email": value}
+        else:
+            dispatcher.utter_template("utter_ask_email", tracker)
+            return {"email": None}
+
+
+
+        # if len(value) > 2:
+        #     sender_id = tracker.sender_id
+        #     slotStorage.set_slot(sender_id, "name", value)
+        #     return {"name": value}
+        # else:
+        #     dispatcher.utter_template("utter_ask_name", tracker)
+        #     return {"name": None}
+        
 
     def submit(self,
                dispatcher: CollectingDispatcher,

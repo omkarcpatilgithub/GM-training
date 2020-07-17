@@ -5,9 +5,6 @@
 ## mongo exist
 * find_in_mongo
   - actions_find_in_mongo
-  - action_form_ask_name
-  - form{"name": "action_form_ask_name"}
-  - form{"name": null}
 * thanks
  - utter_goodbye
   
@@ -16,8 +13,6 @@
 ## search hospital happy path
 * greet
   - actions_find_in_mongo
-  - form{"name": "name"}
-  - form{"name": null}
 * search_provider{"facility_type": "hospital", "location": "San francisco"}
   - action_facility_search
   - slot{"address": "300 hyde"}
@@ -39,14 +34,15 @@
 ## happy path
 * greet
   - actions_find_in_mongo
-  - form{"name": "name"}
-  - form{"name": null}
 * mood_great
   - utter_happy
 
 ## sad path 1
 * greet
   - actions_find_in_mongo
+  - action_form_ask_name
+  - form{"name": "action_form_ask_name"}
+  - form{"name": null}
 * mood_unhappy
   - utter_cheer_up
   - utter_did_that_help
@@ -56,6 +52,9 @@
 ## sad path 2
 * greet
   - actions_find_in_mongo
+  - action_form_ask_name
+  - form{"name": "action_form_ask_name"}
+  - form{"name": null}
 * mood_unhappy
   - utter_cheer_up
   - utter_did_that_help
