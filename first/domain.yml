@@ -1,0 +1,100 @@
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - search_provider
+  - inform
+  - thanks
+  - find_in_mongo
+  - name
+  - email
+  - deregister
+
+
+entities:
+  - location
+  - facility_type
+  - name
+  - email
+  - address
+
+
+
+slots:
+  location:
+    type: text
+  facility_type:
+    type: text
+  address:
+    type: unfeaturized
+  name:
+    type: text
+  email:
+    type: text
+  is_registered:
+    type: categorical
+    values:
+      - Y
+      - N
+  requested_slot:
+    type: text
+
+actions:
+  - utter_greet
+  - utter_cheer_up
+  - utter_did_that_help
+  - utter_happy
+  - utter_goodbye
+  - utter_how_can_i_help
+  - utter_ask_location
+  - action_facility_search
+  - actions_find_in_mongo
+  - action_form_ask_name
+  - actions_deregister
+  - action_ask_location
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_ask_name:
+
+    - text: "seems you are not registred, please enter your name"
+    - text: "Could you please tell me your name for registration"
+
+  utter_ask_email:
+    - text: "Please provide your email"
+    - text: "Could you Please provide your email"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_how_can_i_help:
+    - text: "hello, i am a medicare location. do you want nearby hospitals"
+
+  utter_ask_location:
+    - text: "provide your location"
+    - text: "to find the nearest {facility_type} I need your address"
+  utter_welcome:
+    - text: 'your welcome buddy'
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
