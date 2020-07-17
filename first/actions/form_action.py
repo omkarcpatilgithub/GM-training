@@ -21,6 +21,7 @@ class FacilityForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
+        
         return ["name", "email"]
 
 ## how is this returning form intent
@@ -29,11 +30,53 @@ class FacilityForm(FormAction):
     def slot_mappings(self) -> Dict[Text, Any]:
         # return {"name": self.from_entity(entity="name",
         #                                  intent=["name"]),
-        return {"name": [self.from_text()],
+
+        print('taking name and email')
+        return {"name": [self.from_text(intent=["name"])],
                 "email": self.from_entity(entity="email",
                                              # intent="inform")}
                                              intent=["email"])}
+    # 
+    def validate_name(
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate cuisine value."""
+        # print('########################################3')
+        # print(tracker.sender_id)
+        # #print(domain)
+        # print(dispatcher.messages)
+        # print(tracker.events)
+        # print('########################################3')
+        # print(tracker.active_form)
+        # print('########################################3')
+        # # print(tracker.current_state())
+        # print(tracker.slots)
 
+        # print(tracker.latest_message)
+        # print('########################################3')
+        # # print(tracker.slots)
+        # print('########################################3')
+        print(tracker)
+        if (tracker.slots['name']):
+            value = tracker.slots['name']
+        print('returning whole value')
+        return {"name": value}
+        
+        
+        
+        
+        # if len(value) > 2:
+        #     sender_id = tracker.sender_id
+        #     slotStorage.set_slot(sender_id, "name", value)
+        #     return {"name": value}
+        # else:
+        #     dispatcher.utter_template("utter_ask_name", tracker)
+        #     return {"name": None}
+        
 
     def submit(self,
                dispatcher: CollectingDispatcher,
