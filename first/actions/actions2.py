@@ -42,6 +42,6 @@ class ActionFindMongo(Action):
             # print(results[0]['name'])
             user = results[0]['name']
             dispatcher.utter_message(text="Hello {}, tell me how can i help you".format(user))
-            return []
+            return []   #TODO add followupAction for extra confirmation
 
 
